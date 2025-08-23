@@ -64,17 +64,19 @@
     font-size: 14px;
   }
 
-  /* Estilos específicos para impresión */
+  /* Estilos específicos para impresión POS */
   @media print {
     @page {
-      size: 58mm auto; /* Ancho fijo 58mm, alto automático */
-      margin: 2mm; /* Margen mínimo */
+      size: 58mm 200mm; /* Tamaño fijo que se ajustará */
+      margin: 0; /* Sin márgenes */
     }
     
-    body {
+    html, body {
       margin: 0 !important;
       padding: 0 !important;
       background: white !important;
+      height: auto !important;
+      overflow: hidden !important;
     }
     
     /* Ocultar todo excepto el ticket que se está imprimiendo */
@@ -91,41 +93,57 @@
       display: none !important;
     }
     
-    /* Posicionar el ticket para impresión */
+    /* Posicionar el ticket para impresión POS */
     .printable {
       position: absolute !important;
       top: 0 !important;
       left: 0 !important;
-      width: 54mm !important; /* Ancho efectivo considerando márgenes */
-      padding: 2mm !important;
+      right: 0 !important;
+      width: 58mm !important;
+      max-width: 58mm !important;
+      min-height: auto !important;
+      height: auto !important;
+      padding: 3mm !important;
+      margin: 0 !important;
       border: none !important;
-      font-size: 12px !important;
-      page-break-after: avoid !important;
+      font-size: 11px !important;
+      line-height: 1.2 !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
     }
     
     .printable h2 {
-      font-size: 14px !important;
-      margin: 2mm 0 !important;
+      font-size: 12px !important;
+      margin: 0 0 2mm 0 !important;
+      line-height: 1.1 !important;
     }
     
     .printable .logo-text {
-      font-size: 16px !important;
-      margin: 3mm 0 !important;
+      font-size: 14px !important;
+      margin: 2mm 0 !important;
+      line-height: 1.1 !important;
     }
     
     .printable .item {
-      font-size: 12px !important;
-      margin: 2mm 0 !important;
+      font-size: 10px !important;
+      margin: 1mm 0 !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      line-height: 1.2 !important;
     }
     
     .printable .total {
-      font-size: 12px !important;
-      margin-top: 2mm !important;
+      font-size: 11px !important;
+      margin: 2mm 0 1mm 0 !important;
+      font-weight: bold !important;
+      text-align: right !important;
+      line-height: 1.2 !important;
     }
     
     .printable .time {
-      font-size: 10px !important;
-      margin-top: 2mm !important;
+      font-size: 9px !important;
+      margin: 1mm 0 0 0 !important;
+      line-height: 1.1 !important;
     }
     
     /* Ajustes para campos personalizables */
@@ -133,8 +151,10 @@
       border: none !important;
       background: transparent !important;
       font-family: monospace !important;
-      font-size: 12px !important;
+      font-size: 10px !important;
       text-align: center !important;
+      padding: 0 !important;
+      margin: 0 !important;
     }
   }
 </style>
@@ -151,7 +171,8 @@
       <div class="total">TOTAL: S/ 13.00</div>
       <div class="time" id="time1"></div>
     </div>
-    <button class="btn-print" onclick="printTicket('ticket1')">Imprimir</button>
+    <button class="btn-print" onclick="printTicket('ticket1')">Imprimir Normal</button>
+    <button class="btn-print" onclick="printTicketPOS('ticket1')" style="background: #333; margin-top: 2px;">Imprimir POS</button>
   </div>
 
   <div class="ticket-container">
@@ -162,7 +183,8 @@
       <div class="total">TOTAL: S/ 26.00</div>
       <div class="time" id="time2"></div>
     </div>
-    <button class="btn-print" onclick="printTicket('ticket2')">Imprimir</button>
+    <button class="btn-print" onclick="printTicket('ticket2')">Imprimir Normal</button>
+    <button class="btn-print" onclick="printTicketPOS('ticket2')" style="background: #333; margin-top: 2px;">Imprimir POS</button>
   </div>
 
   <div class="ticket-container">
@@ -173,7 +195,8 @@
       <div class="total">TOTAL: S/ 39.00</div>
       <div class="time" id="time3"></div>
     </div>
-    <button class="btn-print" onclick="printTicket('ticket3')">Imprimir</button>
+    <button class="btn-print" onclick="printTicket('ticket3')">Imprimir Normal</button>
+    <button class="btn-print" onclick="printTicketPOS('ticket3')" style="background: #333; margin-top: 2px;">Imprimir POS</button>
   </div>
 
   <div class="ticket-container">
@@ -184,7 +207,8 @@
       <div class="total">TOTAL: S/ 52.00</div>
       <div class="time" id="time4"></div>
     </div>
-    <button class="btn-print" onclick="printTicket('ticket4')">Imprimir</button>
+    <button class="btn-print" onclick="printTicket('ticket4')">Imprimir Normal</button>
+    <button class="btn-print" onclick="printTicketPOS('ticket4')" style="background: #333; margin-top: 2px;">Imprimir POS</button>
   </div>
 </div>
 
@@ -198,7 +222,8 @@
       <div class="total">TOTAL: S/ 5.00</div>
       <div class="time" id="time5"></div>
     </div>
-    <button class="btn-print" onclick="printTicket('ticket5')">Imprimir</button>
+    <button class="btn-print" onclick="printTicket('ticket5')">Imprimir Normal</button>
+    <button class="btn-print" onclick="printTicketPOS('ticket5')" style="background: #333; margin-top: 2px;">Imprimir POS</button>
   </div>
 
   <div class="ticket-container">
@@ -209,7 +234,8 @@
       <div class="total">TOTAL: S/ 12.00</div>
       <div class="time" id="time6"></div>
     </div>
-    <button class="btn-print" onclick="printTicket('ticket6')">Imprimir</button>
+    <button class="btn-print" onclick="printTicket('ticket6')">Imprimir Normal</button>
+    <button class="btn-print" onclick="printTicketPOS('ticket6')" style="background: #333; margin-top: 2px;">Imprimir POS</button>
   </div>
 
   <div class="ticket-container">
@@ -220,7 +246,8 @@
       <div class="total">TOTAL: S/ 8.00</div>
       <div class="time" id="time7"></div>
     </div>
-    <button class="btn-print" onclick="printTicket('ticket7')">Imprimir</button>
+    <button class="btn-print" onclick="printTicket('ticket7')">Imprimir Normal</button>
+    <button class="btn-print" onclick="printTicketPOS('ticket7')" style="background: #333; margin-top: 2px;">Imprimir POS</button>
   </div>
 
   <div class="ticket-container">
@@ -235,7 +262,8 @@
       </div>
       <div class="time" id="time8"></div>
     </div>
-    <button class="btn-print" onclick="printTicketCustom('ticket8')">Imprimir</button>
+    <button class="btn-print" onclick="printTicketCustom('ticket8')">Imprimir Normal</button>
+    <button class="btn-print" onclick="printTicketCustomPOS('ticket8')" style="background: #333; margin-top: 2px;">Imprimir POS</button>
   </div>
 </div>
 
@@ -257,18 +285,78 @@
   updateTime();
 
   function printTicket(id) {
+    // Método 1: Impresión directa (actual)
     const ticket = document.getElementById(id);
-    
-    // Agregar clase para hacer visible en impresión
     ticket.classList.add('printable');
-    
-    // Imprimir
     window.print();
-    
-    // Remover clase después de imprimir
     setTimeout(() => {
       ticket.classList.remove('printable');
     }, 100);
+  }
+
+  function printTicketPOS(id) {
+    // Método 2: Ventana popup específica para POS
+    const ticket = document.getElementById(id);
+    const content = ticket.innerHTML;
+    
+    const printWindow = window.open('', '_blank', 'width=220,height=400');
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <style>
+          @page { 
+            size: 58mm auto; 
+            margin: 0; 
+          }
+          body { 
+            font-family: monospace; 
+            margin: 0; 
+            padding: 3mm; 
+            width: 52mm; 
+            font-size: 10px; 
+            line-height: 1.2;
+            text-align: center;
+          }
+          h2 { 
+            font-size: 11px; 
+            margin: 0 0 2mm 0; 
+          }
+          .logo-text { 
+            font-size: 13px; 
+            font-weight: bold; 
+            margin: 2mm 0; 
+          }
+          .item { 
+            display: flex; 
+            justify-content: space-between; 
+            margin: 1mm 0; 
+            font-size: 9px; 
+          }
+          .total { 
+            text-align: right; 
+            font-weight: bold; 
+            margin: 2mm 0 1mm 0; 
+            font-size: 10px; 
+          }
+          .time { 
+            font-size: 8px; 
+            margin: 1mm 0 0 0; 
+          }
+        </style>
+      </head>
+      <body>${content}</body>
+      </html>
+    `);
+    
+    printWindow.document.close();
+    printWindow.focus();
+    
+    setTimeout(() => {
+      printWindow.print();
+      printWindow.close();
+    }, 500);
   }
 
   function printTicketCustom(id) {
@@ -303,6 +391,84 @@
     setTimeout(() => {
       document.body.removeChild(ticketClone);
     }, 100);
+  }
+
+  function printTicketCustomPOS(id) {
+    // Método POS para ticket personalizable
+    const customText = document.getElementById('customText').value;
+    const customPrice = document.getElementById('customPrice').value;
+    const now = new Date().toLocaleString('es-PE', { 
+      day: '2-digit',
+      month: '2-digit', 
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    
+    const printWindow = window.open('', '_blank', 'width=220,height=400');
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <style>
+          @page { 
+            size: 58mm auto; 
+            margin: 0; 
+          }
+          body { 
+            font-family: monospace; 
+            margin: 0; 
+            padding: 3mm; 
+            width: 52mm; 
+            font-size: 10px; 
+            line-height: 1.2;
+            text-align: center;
+          }
+          h2 { 
+            font-size: 11px; 
+            margin: 0 0 2mm 0; 
+          }
+          .logo-text { 
+            font-size: 13px; 
+            font-weight: bold; 
+            margin: 2mm 0; 
+          }
+          .item { 
+            display: flex; 
+            justify-content: space-between; 
+            margin: 1mm 0; 
+            font-size: 9px; 
+          }
+          .total { 
+            text-align: right; 
+            font-weight: bold; 
+            margin: 2mm 0 1mm 0; 
+            font-size: 10px; 
+          }
+          .time { 
+            font-size: 8px; 
+            margin: 1mm 0 0 0; 
+          }
+        </style>
+      </head>
+      <body>
+        <h2>RESTAURANTE</h2>
+        <div class="logo-text">LA NUEVA ZOILITA</div>
+        <div class="item"><span>${customText || 'Producto personalizado'}</span><span>S/ ${customPrice || '0'}.00</span></div>
+        <div class="total">TOTAL: S/ ${customPrice || '0'}.00</div>
+        <div class="time">${now}</div>
+      </body>
+      </html>
+    `);
+    
+    printWindow.document.close();
+    printWindow.focus();
+    
+    setTimeout(() => {
+      printWindow.print();
+      printWindow.close();
+    }, 500);
   }
 </script>
 
