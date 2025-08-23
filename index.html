@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tickets Restaurante</title>
 <style>
+  @media print {
+    @page {
+      size: 58mm auto; /* Ancho 58mm, alto dinámico */
+      margin: 0; /* Sin márgenes extras */
+    }
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    .ticket {
+      width: 58mm; /* Ajusta el ancho al tamaño real */
+      border: none; /* Evita bordes en la impresión */
+      page-break-after: always; /* Cada ticket en una hoja separada */
+    }
+  }
+
   body {
     font-family: monospace;
     margin: 0;
