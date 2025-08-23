@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tickets Restaurante</title>
+<style>
+  body {
+    font-family: monospace;
+    margin: 0;
+    padding: 20px;
+    background: #f8f8f8;
+  }
+  .row {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 15px;
+  }
+  .ticket {
+    width: 80mm;
+    background: #fff;
+    padding: 10px;
+    border: 1px dashed #000;
+    text-align: center;
+  }
+  .ticket h2 {
+    margin: 0;
+    font-size: 16px;
+  }
+  .logo-text {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  .item {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  .total {
+    text-align: right;
+    font-weight: bold;
+    margin-top: 5px;
+    font-size: 14px;
+  }
+  .time {
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  .btn-print {
+    margin-top: 10px;
+    padding: 5px;
+    width: 100%;
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  /* Estilos de impresión */
+  @media print {
+    body * {
+      visibility: hidden !important;
+    }
+    .printable, .printable * {
+      visibility: visible !important;
+    }
+    .printable {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Fila 1: Menús -->
+<div class="row">
+  <div class="ticket" id="ticket1">
+    <h2>RESTAURANTE</h2>
+    <div class="logo-text">LA NUEVA ZOILITA</div>
+    <div class="item"><span>Menú x1</span><span>S/ 13.00</span></div>
+    <div class="total">TOTAL: S/ 13.00</div>
+    <div class="time" id="time1"></div>
+    <button class="btn-print" onclick="printTicket('ticket1')">Imprimir</button>
+  </div>
+
+  <div class="ticket" id="ticket2">
+    <h2>RESTAURANTE</h2>
+    <div class="logo-text">LA NUEVA ZOILITA</div>
+    <div class="item"><span>Menú x2</span><span>S/ 26.00</span></div>
+    <div class="total">TOTAL: S/ 26.00</div>
+    <div class="time" id="time2"></div>
+    <button class="btn-print" onclick="printTicket('ticket2')">Imprimir</button>
+  </div>
+
+  <div class="ticket" id="ticket3">
+    <h2>RESTAURANTE</h2>
+    <div class="logo-text">LA NUEVA ZOILITA</div>
+    <div class="item"><span>Menú x3</span><span>S/ 39.00</span></div>
+    <div class="total">TOTAL: S/ 39.00</div>
+    <div class="time" id="time3"></div>
+    <button class="btn-print" onclick="printTicket('ticket3')">Imprimir</button>
+  </div>
+
+  <div class="ticket" id="ticket4">
+    <h2>RESTAURANTE</h2>
+    <div class="logo-text">LA NUEVA ZOILITA</div>
+    <div class="item"><span>Menú x4</span><span>S/ 52.00</span></div>
+    <div class="total">TOTAL: S/ 52.00</div>
+    <div class="time" id="time4"></div>
+    <button class="btn-print" onclick="printTicket('ticket4')">Imprimir</button>
+  </div>
+</div>
+
+<!-- Fila 2: Entrada, Segundo, Calentado, Custom -->
+<div class="row">
+  <div class="ticket" id="ticket5">
+    <h2>RESTAURANTE</h2>
+    <div class="logo-text">LA NUEVA ZOILITA</div>
+    <div class="item"><span>Entrada</span><span>S/ 5.00</span></div>
+    <div class="total">TOTAL: S/ 5.00</div>
+    <div class="time" id="time5"></div>
+    <button class="btn-print" onclick="printTicket('ticket5')">Imprimir</button>
+  </div>
+
+  <div class="ticket" id="ticket6">
+    <h2>RESTAURANTE</h2>
+    <div class="logo-text">LA NUEVA ZOILITA</div>
+    <div class="item"><span>Segundo</span><span>S/ 12.00</span></div>
+    <div class="total">TOTAL: S/ 12.00</div>
+    <div class="time" id="time6"></div>
+    <button class="btn-print" onclick="printTicket('ticket6')">Imprimir</button>
+  </div>
+
+  <div class="ticket" id="ticket7">
+    <h2>RESTAURANTE</h2>
+    <div class="logo-text">LA NUEVA ZOILITA</div>
+    <div class="item"><span>Calentado</span><span>S/ 8.00</span></div>
+    <div class="total">TOTAL: S/ 8.00</div>
+    <div class="time" id="time7"></div>
+    <button class="btn-print" onclick="printTicket('ticket7')">Imprimir</button>
+  </div>
+
+  <div class="ticket" id="ticket8">
+    <h2>RESTAURANTE</h2>
+    <div class="logo-text">LA NUEVA ZOILITA</div>
+    <div class="item"><input type="text" id="customText" placeholder="Escribe algo" style="width:70%;"></div>
+    <div class="total">TOTAL: S/ <input type="number" id="customPrice" value="0" style="width:50px;"></div>
+    <div class="time" id="time8"></div>
+    <button class="btn-print" onclick="printTicket('ticket8')">Imprimir</button>
+  </div>
+</div>
+
+<script>
+  function updateTime() {
+    const now = new Date().toLocaleString('es-PE', { dateStyle: 'short', timeStyle: 'medium' });
+    for (let i = 1; i <= 8; i++) {
+      document.getElementById('time' + i).innerText = now;
+    }
+  }
+  setInterval(updateTime, 1000);
+  updateTime();
+
+  function printTicket(id) {
+    const ticket = document.getElementById(id);
+    ticket.classList.add('printable');
+    window.print();
+    ticket.classList.remove('printable');
+  }
+</script>
+
+</body>
+</html>
