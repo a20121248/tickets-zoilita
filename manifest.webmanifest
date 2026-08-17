@@ -1,0 +1,20 @@
+{
+  "name": "La Nueva Zoilita - Caja",
+  "short_name": "Zoilita",
+  "description": "Sistema local de tickets, catálogo y comprobantes pendientes de La Nueva Zoilita.",
+  "lang": "es-PE",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f3f1ed",
+  "theme_color": "#7b5a39",
+  "icons": [
+    {
+      "src": "./zoilita-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
